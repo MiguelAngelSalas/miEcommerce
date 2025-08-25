@@ -1,0 +1,78 @@
+{
+  "nombre": "Miguel Angel Salas",
+  "titulo": "Programador Junior con bases en FrontEnd",
+  "contacto": {
+    "direccion": "Achupallas 55, Temperley, C.P: 1834, Buenos Aires, Argentina",
+    "edad": 30,
+    "telefono": "1123909529",
+    "email": "miguelsalas1994@outlook.com",
+    "linkedin": "https://linkedin.com/in/Miguel-Angel-salas",
+    "github": "https://github.com/miguelangelsalas"
+  },
+  "resumen": "Persona con solida experiencia en atencion al cliente y manejo de herramientas informaticas. Especializado en tramites online, redaccion, digitalizacion de documentos y resolucion de problemas tecnicos cotidianos. Actualmente en formacion como programador con conocimientos en React, Python y Node, orientado a soluciones practicas como automatizacion de tareas, desarrollo web y manejo de bases de datos locales.",
+  "skills": [
+    "React",
+    "Python",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "Node.js",
+    "Excel",
+    "Word",
+    "PDF",
+    "Atención al cliente"
+  ],
+  "experienciaLaboral": [
+    {
+      "puesto": "Data Entry",
+      "empresa": "Randstad",
+      "localidad": "Buenos Aires",
+      "fechaDeInicio": "2023",
+      "fechaDeEgreso": "2023",
+      "tareasAsignadas": [
+        "Trabajo eventual por elecciones",
+        "Entrada de datos por teclado"
+      ]
+    },
+    {
+      "puesto": "Operador de Ciber",
+      "empresa": "Cybernet",
+      "localidad": "Temperley",
+      "fechaDeInicio": "2018-03",
+      "fechaDeEgreso": "Actualidad",
+      "tareasAsignadas": [
+        "Servicios de trámites online",
+        "Creación de CV",
+        "Manejo de impresora",
+        "Manejo de Excel, Word y archivos PDF",
+        "Atención al cliente"
+      ]
+    }
+  ],
+  "educacion": [
+    {
+      "grado": "Título secundario",
+      "institucion": "CENS 454, Lomas de Zamora",
+      "fechaDeInicio": "2013",
+      "fechaDeEgreso": "2016"
+    },
+    {
+      "grado": "Curso de POO (HTML, CSS y JavaScript)",
+      "institucion": "CFP 403",
+      "fechaDeInicio": "2023",
+      "fechaDeEgreso": "2023"
+    },
+    {
+      "grado": "Tecnicatura en programación (2do Año)",
+      "institucion": "UnAB - Universidad Nacional de Almirante Brown",
+      "fechaDeInicio": "2024",
+      "fechaDeEgreso": "2025"
+    }
+  ],
+  "lenguajes": [
+    {
+      "language": "Español",
+      "level": "Nativo"
+    }
+  ]
+}

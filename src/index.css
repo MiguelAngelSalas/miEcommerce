@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'MiFuente';
+  src: url('/fuentes/ARCADE.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@import "tailwindcss";
+
