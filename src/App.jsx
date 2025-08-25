@@ -18,6 +18,15 @@ const obtenerCantidadPorHoja = (tamaño) => {
   }
 };
 
+const dividirEnPaginas = (imagenes, cantidadPorHoja) => {
+  const paginas = [];
+  for (let i = 0; i < imagenes.length; i += cantidadPorHoja) {
+    paginas.push(imagenes.slice(i, i + cantidadPorHoja));
+  }
+  return paginas;
+};
+
+
 const debeRotar = (tamaño) => {
   switch (tamaño) {
     case '13x18':
@@ -93,13 +102,18 @@ const handleFileChange = (e)=>{
       </select>
 
       {/* Div siempre con tamaño de hoja A4 */}
-      <div className={`border border-gray-500 w-[794px] h-[1123px] bg-white overflow-hidden mb-4 p-6 grid gap-6 justify-items-center items-center ${obtenerGridLayout(obtenerCantidadPorHoja(tamaño))}`}>
-        {imagenes.slice(0, obtenerCantidadPorHoja(tamaño)).map((src, index) => (
-          <div key={index} className="flex items-center justify-center">
-            <img src={src} alt={`foto-${index}`} className={`${obtenerMedidasFoto(tamaño)} object-cover rounded shadow ${debeRotar(tamaño) ? 'rotate-90' : ''}`}/>
+      {dividirEnPaginas(imagenes, obtenerCantidadPorHoja(tamaño)).map((grupo, paginaIndex) => (
+        <div key={paginaIndex} className="flex flex-col items-center mb-8">
+          <p className="text-sm text-gray-500 mb-2">Hoja {paginaIndex + 1}</p>
+          <div className={`border border-gray-500 w-[794px] h-[1123px] bg-white overflow-hidden p-6 grid gap-6 justify-items-center items-center ${obtenerGridLayout(grupo.length)}`}>
+            {grupo.map((src, index) => (
+              <div key={index} className="flex items-center justify-center">
+                <img src={src} alt={`foto-${paginaIndex}-${index}`} className={`${obtenerMedidasFoto(tamaño)} object-cover rounded shadow ${debeRotar(tamaño) ? 'rotate-90' : ''}`}/>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
       <form className='my-4' action="">
         <label htmlFor="files">Seleccion de fotos</label><br />
         <input className='bg-red-400 rounded hover:bg-fuchsia-700 hover:text-white p-1' type="file" id='files' name='files' multiple onChange={handleFileChange}  /><br />
