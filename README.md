@@ -1,12 +1,27 @@
-# React + Vite
+# Simulador de Impresión A4
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es un simulador visual de hojas A4 que permite distribuir imágenes en múltiples páginas, replicando el comportamiento del visor de impresión de Windows. Ideal para visualizar cómo quedaría una impresión antes de exportarla.
 
-Currently, two official plugins are available:
+## ✨ Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Distribución automática de imágenes en hojas A4
+- Layout realista con márgenes, orientación y agrupamiento
+- Escalado visual para vista previa sin perder calidad de exportación
+- Exportación de todas las hojas como imágenes JPG en un archivo ZIP
+- Selector de tamaño de impresión (10x15, 13x18, etc.)
+- Interfaz responsiva y fluida
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologías
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React + Vite
+- Tailwind CSS
+- html2canvas
+- JSZip
+- file-saver
+
+## 🚀 Cómo usar
+
+1. Cloná el repositorio:
+   ```bash
+   git clone https://github.com/micaela/simulador-impresion.git
+   cd simulador-impresion
