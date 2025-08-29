@@ -23,5 +23,12 @@ Este proyecto es un simulador visual de hojas A4 que permite distribuir imágene
 
 1. Cloná el repositorio:
    ```bash
-   git clone https://github.com/micaela/simulador-impresion.git
-   cd simulador-impresion
+   git clone https://github.com/miguelangelsalas/miEcommerce.git
+   cd miecommerce
+2. Instala dependencias
+   ```bash 
+   npm install
+3. Ejecuta proyecto
+   ```bash
+   npm run dev
+4. 
