@@ -2,6 +2,13 @@ body {
   background-color: white;
   margin: 0;
 }
-
+.hoja-escalada {
+  width: 317px; /* 794 * 0.4 */
+  height: 449px; /* 1123 * 0.4 */
+  transform: scale(0.4);
+  transform-origin: top left;
+  display: inline-block;
+  margin: 0.5rem ;
+}
 
 

@@ -1,125 +1,84 @@
-import { useState } from 'react';
-import fotoDos from '/fotoDos.jpg';
+import { useState } from "react";
+import html2canvas from "html2canvas";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+import FormularioOption from "./componentes/FormularioOption";
+import ObtenerCantidadPorHoja from "./componentes/ObtenerCantidadPorHoja";
+import DividirEnPaginas from "./componentes/DividirEnPaginas";
+import handleFileChange from "./componentes/handleFileChange";
+import HojaA4 from "./componentes/HojaA4";
+import "./App.css";
 
 function App() {
-  const [tamaño, setTamaño] = useState('10x15');
-const obtenerCantidadPorHoja = (tamaño) => {
-  switch (tamaño) {
-    case '6x8':
-      return 9;
-    case '9x13':
-      return 4;
-    case '10x15':
-      return 2;
-    case '13x18':
-      return 2;
-    default:
-      return 1;
+  async function capturarYExportar() {
+  const zip = new JSZip();
+
+  for (let i = 0; i < paginas.length; i++) {
+    const elemento = document.getElementById(`hoja-${i}`);
+    if (!elemento) continue;
+
+    const canvas = await html2canvas(elemento, {
+      scale: 2,
+      useCORS: true
+    });
+
+    const imgData = canvas.toDataURL("image/jpeg").split(",")[1];
+    zip.file(`hoja${i + 1}.jpg`, imgData, { base64: true });
   }
-};
 
-const dividirEnPaginas = (imagenes, cantidadPorHoja) => {
-  const paginas = [];
-  for (let i = 0; i < imagenes.length; i += cantidadPorHoja) {
-    paginas.push(imagenes.slice(i, i + cantidadPorHoja));
-  }
-  return paginas;
-};
-
-
-const debeRotar = (tamaño) => {
-  switch (tamaño) {
-    case '13x18':
-    case '10x15':
-      return true; // se acomodan mejor en horizontal
-    case '9x13':
-    case '6x8':
-      return false; // verticales funcionan bien
-    default:
-      return false;
-  }
-};
-
-const obtenerGridLayout = (cantidad) => {
-  switch (cantidad) {
-    case 9:
-      return 'grid-cols-3 grid-rows-3';
-    case 4:
-      return 'grid-cols-2 grid-rows-2';
-    case 2:
-      return 'grid-cols-1 grid-rows-2';
-    case 1:
-      return 'grid-cols-1 grid-rows-1';
-    default:
-      return 'grid-cols-1 grid-rows-1';
-  }
-};
-
-const esVertical = (tamaño) => {
-  switch (tamaño) {
-    case '9x13':
-    case '10x15':
-    case '13x18':
-    case '6x8':
-      return true; // todas son más altas que anchas
-    default:
-      return true;
-  }
-};
-
-///* Función para obtener las medidas de la foto según el tamaño seleccionado
-  
-const obtenerMedidasFoto = (tamaño) => {
-  switch (tamaño) {
-    case '13x18':
-      return 'w-[492px] h-[680px]'; // Escalado para pantalla
-    case '9x13':
-      return 'w-[255px] h-[369px]';
-    case '10x15':
-      return 'w-[340px] h-[567px]'; // Corregido
-    case '6x8':
-      return 'w-[170px] h-[226px]'; // Escalado para que entren varias en A4
-    default:
-      return 'w-[794px] h-[1123px]';
-  }
-};  
-
-const [imagenes, setImagenes] = useState([]);
-const handleFileChange = (e)=>{
-  const archivos = Array.from(e.target.files);
-  const imagenesArray = archivos.map((archivo)=>URL.createObjectURL(archivo));
-  setImagenes(imagenesArray);
+  const contenido = await zip.generateAsync({ type: "blob" });
+  saveAs(contenido, "hojas.zip");
 }
 
-  return (
-    <div className="flex flex-col items-center p-4">
-      <select value={tamaño} onChange={(e) => setTamaño(e.target.value)} className="mb-4 border p-1">
-        <option value="10x15">10x15</option>
-        <option value="13x18">13x18</option>
-        <option value="9x13">9x13</option>
-        <option value="6x8">6x8</option>
-        <option value="">seleccionar</option>
-      </select>
+  const [tamaño, setTamaño] = useState("10x15");
+  const [imagenes, setImagenes] = useState([]);
 
-      {/* Div siempre con tamaño de hoja A4 */}
-      {dividirEnPaginas(imagenes, obtenerCantidadPorHoja(tamaño)).map((grupo, paginaIndex) => (
-        <div key={paginaIndex} className="flex flex-col items-center mb-8">
-          <p className="text-sm text-gray-500 mb-2">Hoja {paginaIndex + 1}</p>
-          <div className={`border border-gray-500 w-[794px] h-[1123px] bg-white overflow-hidden p-6 grid gap-6 justify-items-center items-center ${obtenerGridLayout(grupo.length)}`}>
-            {grupo.map((src, index) => (
-              <div key={index} className="flex items-center justify-center">
-                <img src={src} alt={`foto-${paginaIndex}-${index}`} className={`${obtenerMedidasFoto(tamaño)} object-cover rounded shadow ${debeRotar(tamaño) ? 'rotate-90' : ''}`}/>
+  function rellenarGrupo(grupo, cantidadPorHoja) {
+    const copia = [...grupo];
+    while (copia.length < cantidadPorHoja) {
+      copia.push(null); // Espacio vacío
+    }
+    return copia;
+  }
+
+  const cantidadPorHoja = ObtenerCantidadPorHoja(tamaño);
+  const paginas = DividirEnPaginas(imagenes, cantidadPorHoja).map((grupo) =>
+    rellenarGrupo(grupo, cantidadPorHoja)
+  );
+
+  
+
+  return (
+      <div className="p-4">
+        <div className="flex flex-col items-center gap-4">
+          <FormularioOption tamaño={tamaño} setTamaño={setTamaño} />
+          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 my-4" onClick={capturarYExportar} >Exportar hojas como ZIP</button>
+        </div>
+        <div className="flex flex-wrap justify-center mt-6" >
+            {paginas.map((grupo, paginaIndex) => (
+              <div key={paginaIndex} className="hoja-escalada">
+                <HojaA4 grupo={grupo}
+                    paginaIndex={paginaIndex} tamaño={tamaño}
+                />
               </div>
             ))}
-          </div>
         </div>
-      ))}
-      <form className='my-4' action="">
-        <label htmlFor="files">Seleccion de fotos</label><br />
-        <input className='bg-red-400 rounded hover:bg-fuchsia-700 hover:text-white p-1' type="file" id='files' name='files' multiple onChange={handleFileChange}  /><br />
-        <input type="submit" />
-      </form>
-    </div>
+        {/* Input de imágenes */}
+        <form className="my-6 text-center" action="">
+          <label htmlFor="files">Seleccion de fotos</label>
+          <br />
+          <input
+            className="bg-red-400 rounded hover:bg-fuchsia-700 hover:text-white p-1"
+            type="file"
+            id="files"
+            name="files"
+            multiple
+            onChange={(e) => handleFileChange(e, setImagenes)}
+          />
+          <br />
+          <input type="submit" />
+        </form>
+      </div>
   );
 }
 
